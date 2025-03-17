@@ -28,9 +28,14 @@ async def send_telegram_notification(message):
 # Gym API Endpoint
 GYM_API_URL = "https://basic.deporweb.net/api/aforo/v1/actual/MA=="
 
-# Telegram Bot Config (replace with your bot's details)
+# Telegram Bot Config
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID") or get_chat_id()
+if not TELEGRAM_BOT_TOKEN:
+    raise ValueError("TELEGRAM_BOT_TOKEN environment variable is not set")
+
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+if not TELEGRAM_CHAT_ID:
+    TELEGRAM_CHAT_ID = get_chat_id()
 
 # ----------------------- MAIN FUNCTION -----------------------
 if __name__ == "__main__":
