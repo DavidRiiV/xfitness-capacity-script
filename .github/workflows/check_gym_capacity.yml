@@ -2,7 +2,10 @@ name: Check Gym Capacity
 
 on:
   schedule:
-    - cron: '*/25 * * * *'  # Runs every 20 minutes
+    # Run every 25 minutes during 14:00-17:00
+    - cron: '*/10 12-15 * * *'
+    # Run every 25 minutes during 21:00-00:00
+    - cron: '*/10 19-22 * * *'
   workflow_dispatch:  # Allows manual triggering
 
 # Add concurrency to prevent overlapping runs
