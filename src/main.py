@@ -2,6 +2,7 @@ import requests
 from telegram import Bot
 import asyncio
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import os
 # ----------------------- GYM FUNCTIONS -----------------------
 def get_gym_capacity():
@@ -40,5 +41,5 @@ if not TELEGRAM_CHAT_ID:
 # ----------------------- MAIN FUNCTION -----------------------
 if __name__ == "__main__":
     gym_capacity = get_gym_capacity()
-    if gym_capacity < 20:
-        asyncio.run(send_telegram_notification(f"Aforo actual: {gym_capacity}%\nHora: {datetime.now().strftime('%H:%M:%S')}"))
+    if gym_capacity <= 20:
+        asyncio.run(send_telegram_notification(f"Aforo actual: {gym_capacity}%\nHora: {datetime.now(tz=ZoneInfo('Europe/Madrid')).strftime('%H:%M:%S')}"))

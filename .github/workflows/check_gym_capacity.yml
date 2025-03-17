@@ -2,12 +2,18 @@ name: Check Gym Capacity
 
 on:
   schedule:
-    - cron: '*/20 * * * *'  # Runs every 20 minutes
+    - cron: '*/25 * * * *'  # Runs every 20 minutes
   workflow_dispatch:  # Allows manual triggering
+
+# Add concurrency to prevent overlapping runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   check-capacity:
     runs-on: ubuntu-latest
+    timeout-minutes: 5  # Add timeout to prevent hung jobs
     
     steps:
     - uses: actions/checkout@v3
@@ -26,4 +32,5 @@ jobs:
       env:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      run: python main.py 
+      run: python src/main.py
+      continue-on-error: false  # Explicitly fail the workflow if script fails
